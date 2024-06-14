@@ -6,7 +6,7 @@ const BasicInfo = (props) => {
   //const navigation = useNavigation();
   return (
     <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
-      <View style={{marginTop:80}}>
+      <View style={{marginTop:100}}>
         <Text style={{
           fontWeight:'bold',
           fontSize:30,

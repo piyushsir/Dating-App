@@ -10,7 +10,7 @@ const NameScreen = (props) => {
   const navigation=useNavigation()
   return (
     <SafeAreaView>
-      <Text style={{marginTop:10, textAlign:'center'}}>No Background Checks are Conducted</Text>
+      <Text style={{marginTop:80, textAlign:'center'}}>No Background Checks are Conducted</Text>
       <View>
         <View style={{flexDirection:'row' , alignItems:'center', marginLeft:15}}>
           <View style={{borderRadius:22,borderWidth:2,height:44,width:44}}>
