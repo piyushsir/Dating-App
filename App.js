@@ -26,6 +26,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import StackNavigator2 from './Navigators/StackNavigator';
 
 function Section({children, title}){
   const isDarkMode = useColorScheme() === 'dark';
@@ -61,13 +62,13 @@ function App(){
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      
-      <View>
-        <Text>Dating app</Text>
-        <Fontisto name='email' size={26} color='black'/>
-      </View>
-    </SafeAreaView>
+    <>
+    <Text>hello </Text>
+     <StackNavigator2/>
+     
+    </>
+       
+
   );
 }
 
