@@ -63,7 +63,7 @@ function App(){
 
   return (
     <>
-    <Text>hello </Text>
+    
      <StackNavigator2/>
      
     </>
