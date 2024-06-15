@@ -5,7 +5,19 @@ import { useNavigation } from '@react-navigation/native'
 const PassScreen = () => {
   const [password,setPassword]=useState("");
   const [confirmPassword,setConfirmPassword] = useState("")
+  const [showPassword,setShowPassword] = useState(false)
+  const [showPassword2,setShowPassword2] = useState(false);
   const navigation = useNavigation();
+
+  const togglePass=()=>{
+      setShowPassword(!showPassword);
+    
+  }
+
+  const togglePass2=()=>{
+    setShowPassword2(!showPassword2);
+  
+}
   return (
     <SafeAreaView>
       <View style={{marginTop:100}}>
@@ -23,39 +35,75 @@ const PassScreen = () => {
             Please Enter a Strong Password.
           </Text>
           <Text>Atleast 8 digits with special characters</Text>
-          
+          <View style={{flexDirection:'row',
+            alignItems:'center',
+            borderWidth:2,
+            borderRadius:8,
+            marginRight:20,
+            justifyContent:'center',
+            marginTop:20
+          }}>
           <TextInput 
           value={password}
           autoFocus= {true}
-          secureTextEntry={true}
+          secureTextEntry={showPassword?true:false}
           placeholder='Password(Required)' 
-          style={{ borderBottomColor:'black',
-            borderBottomWidth:4 , 
-            marginRight:30,marginTop:18,
+          style={{  
+            marginLeft:-30,marginTop:10,
           fontSize:password?22:22,
-        fontFamily:'sans-serif-light'}}
+        fontFamily:'sans-serif-light',
+    
+    paddingTop:-30,
+  paddingVertical:10}}
              onChangeText={(e)=>setPassword(e)}>
 
 
           </TextInput>
 
-          
+          <MaterialCommunityIcons 
+                    name={showPassword ? 'eye-off' : 'eye'} 
+                    size={24} 
+                    color="#aaa"
+                    onPress={togglePass} 
+                    style={{marginLeft:25,paddingLeft:20}}
+                /> 
 
+          </View>
 
+            <View style={{flexDirection:'row',
+            alignItems:'center',
+            borderWidth:2,
+            borderRadius:8,
+            marginRight:20,
+            justifyContent:'center',
+            marginTop:20
+          }}>
           <TextInput 
           value={confirmPassword}
-          secureTextEntry={true}
+          secureTextEntry={showPassword2?true:false}
 
           placeholder='Confirm Password' 
-          style={{ borderBottomColor:'black',
-            borderBottomWidth:4 , 
-            marginRight:30,marginTop:18,
+          style={{
+            marginLeft:-30,marginTop:10,
           fontSize:password?22:22,
-        fontFamily:'sans-serif-light'}}
+        fontFamily:'sans-serif-light',
+    
+    paddingTop:-30,
+  paddingVertical:10}}
              onChangeText={(e)=>setConfirmPassword(e)}>
 
 
           </TextInput>
+
+          <MaterialCommunityIcons 
+                    name={showPassword2 ? 'eye-off' : 'eye'} 
+                    size={24} 
+                    color="#aaa"
+                    onPress={togglePass2} 
+                    style={{marginLeft:25,paddingLeft:50}}
+                /> 
+
+          </View>
 
           
           <Text style={{marginTop:4,marginLeft:3}}>Both Passwords must Match</Text>
