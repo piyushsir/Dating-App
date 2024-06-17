@@ -44,6 +44,7 @@ const TypeScreen = () => {
         <Text style={{fontSize:20,color:'black'}}>BiSexual</Text>
         <MaterialCommunityIcons onPress={()=>setType('bs')} name='circle' size={24} color={type==='bs'?'grey':'black'}/>
         </View>
+        
 
        
 
