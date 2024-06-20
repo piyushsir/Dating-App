@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-
+import { ModalPortal } from 'react-native-modals';
 import {
   SafeAreaView,
   ScrollView,
@@ -65,6 +65,7 @@ function App(){
     <>
     
      <StackNavigator2/>
+     <ModalPortal />
      
     </>
        
