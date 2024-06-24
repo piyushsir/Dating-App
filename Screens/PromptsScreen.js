@@ -8,6 +8,8 @@ const PromptsScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
 
+  console.log(route?.params?.prompt[0]?.question + route?.params?.prompt[0]?.answer + 'hahhahahhahahhahhah');
+
   return (
     <SafeAreaView>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 70, marginLeft: 15 }}>
@@ -41,19 +43,53 @@ const PromptsScreen = () => {
           }}>
 
 
+{route?.params?.prompt[0]?( 
+  <View style={{flex:1,marginTop:4,marginLeft:20}}>
+                <Text style={{fontSize:17}}>
+                  {route?.params?.prompt[0]?.question}
+                </Text>
+
+                <Text style={{fontSize:20,color:'black'}}>
+                  {route?.params?.prompt[0]?.answer}
+                </Text>
+                </View>
+            )
+
+          :(
+            <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                <Text style={{fontSize:18,color:'black'}}>
+                  Choose a Prompt and Answer it
+                </Text>
+                </View>
+          )}
+
+        </Pressable>
+
+
+        <Pressable
+
+          onPress={()=>navigation.navigate('showprompts')}
+          style={{
+            borderStyle: 'dashed',
+            borderWidth: 2, 
+            borderRadius: 8, 
+            height: 80, 
+            marginLeft: 20, 
+            marginTop: 20, 
+            marginRight: 20
+          }}>
+
+     
 {route?.params?.prompt?(
-            route?.params?.prompt.map((itm,key)=>{<>
-              <Text>
-                {itm.question}
-              </Text>
+            <View style={{flex:1,marginTop:4,marginLeft:20}}>
+            <Text style={{fontSize:17}}>
+              {route?.params?.prompt[1]?.question}
+            </Text>
 
-              <Text>
-                {itm.answer}
-
-              </Text>
-              </>
-
-            })
+            <Text style={{fontSize:20,color:'black'}}>
+              {route?.params?.prompt[1]?.answer}
+            </Text>
+            </View>
 
           ):(
             <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
@@ -81,58 +117,15 @@ const PromptsScreen = () => {
 
 
 {route?.params?.prompt?(
-            route?.params?.prompt.map((itm,key)=>{<>
-              <Text>
-                {itm.question}
-              </Text>
+            <View style={{flex:1,marginTop:4,marginLeft:20}}>
+            <Text style={{fontSize:17}}>
+              {route?.params?.prompt[2]?.question}
+            </Text>
 
-              <Text>
-                {itm.answer}
-
-              </Text>
-              </>
-
-            })
-
-          ):(
-            <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                <Text style={{fontSize:18,color:'black'}}>
-                  Choose a Prompt and Answer it
-                </Text>
-                </View>
-          )}
-
-        </Pressable>
-
-
-        <Pressable
-
-          onPress={()=>navigation.navigate('showprompts')}
-          style={{
-            borderStyle: 'dashed',
-            borderWidth: 2, 
-            borderRadius: 8, 
-            height: 80, 
-            marginLeft: 20, 
-            marginTop: 20, 
-            marginRight: 20
-          }}>
-
-
-{route?.params?.prompt?(
-            route?.params?.prompt.map((itm,key)=>{<>
-              <Text>
-                {itm.question}
-              </Text>
-
-              <Text>
-                {itm.answer}
-
-              </Text>
-              </>
-
-            })
-
+            <Text style={{fontSize:20,color:'black'}}>
+              {route?.params?.prompt[2]?.answer}
+            </Text>
+            </View>
           ):(
             <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
                 <Text style={{fontSize:18,color:'black'}}>

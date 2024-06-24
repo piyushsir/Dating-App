@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, Pressable } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, Image, Pressable, TextInput, Button ,TouchableOpacity} from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { BottomModal } from 'react-native-modals';
+import { BottomModal, ModalContent, ModalTitle, SlideAnimation } from 'react-native-modals';
 
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 const ShowPrompt = () => {
 
   const navigation = useNavigation();
@@ -85,7 +85,24 @@ const ShowPrompt = () => {
 
   ];
 
+  console.log(prompt)
 
+  const StateSet=()=>{
+
+    console.log('pressed')
+    const newPrompt = {question,answer}
+    setPrompt([...prompt,newPrompt])
+
+    setAnswer('')
+    setQuestion('')
+
+    setModalVisible(false)
+
+    if(prompt.length==3)
+      {
+        navigation.navigate('prompts',{prompt:prompt})
+      }
+  }
   const OpenModal=(item)=>{
     setModalVisible(!isModalVisible);
     setQuestion(item.question)
@@ -167,11 +184,42 @@ const ShowPrompt = () => {
 
         </View>
       </View>
+
+
+      
+
+      
     </SafeAreaView>
     <BottomModal
     visible={isModalVisible}
     onTouchOutside={()=>setModalVisible(!isModalVisible)}
+    onHardwareBackPress={()=>setModalVisible(!isModalVisible)}
+    onBackdropPress={()=>setModalVisible(!isModalVisible)}
+    swipeDirection={['up','down']}
+    swipeThreshold={200}
+    modelAnimation={
+      new SlideAnimation({
+        slideFrom:'bottom'
+      })
+    }
+    modalTitle = {<ModalTitle title='Write Your Prompt'/>}
     >
+
+      <ModalContent style={{height:200}}>
+        <View style={{flex:1,flexDirection:'row',justifyContent:'center'}}>
+          <Text style={{fontSize:20,fontWeight:'black',marginTop:20,color:'black',fontWeight:700}}>{question}</Text>
+        </View>
+        
+        <View style={{borderWidth:2,borderRadius:9,height:80,marginBottom:3,borderStyle:'dashed'}}>
+        
+          <TextInput placeholder='Answer this Prompt' onChangeText={(e)=>setAnswer(e)}>
+
+          </TextInput>
+         
+        </View>
+        <View >
+        <Button onPress={()=>StateSet()} style={{width:30,marginTop:3}} title='Add' ></Button></View>
+      </ModalContent>
 
     </BottomModal>
     </>
