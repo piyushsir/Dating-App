@@ -1,13 +1,27 @@
 import { StyleSheet, Text, View,SafeAreaView ,Image,TextInput,TouchableOpacity} from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 
-const NameScreen = (props) => {
+import { SaveScreenProgress,GetScreenProgress } from '../Utils';
+
+const NameScreen = () => {
 
   const [firstName,setFirstName] = useState("")
   const [lastName,setLastName] = useState("")
   const navigation=useNavigation()
+
+  useEffect(()=>{
+
+    GetScreenProgress('name').then(Data=>{
+      if(Data)
+        {
+          console.log(Data)
+          setFirstName(Data || '')
+        }
+    })
+
+  },[])
   return (
     <SafeAreaView>
       <Text style={{marginTop:80, textAlign:'center'}}>No Background Checks are Conducted</Text>
@@ -57,7 +71,15 @@ const NameScreen = (props) => {
         </View>
       </View>
 
-      <TouchableOpacity onPress={()=>navigation.navigate('email')}>
+      <TouchableOpacity onPress={()=>{
+
+        if(firstName.trim()!=='')
+          {
+            SaveScreenProgress('name',firstName)
+          }
+        navigation.navigate('email')
+
+      }}>
 
             <MaterialCommunityIcons 
 
