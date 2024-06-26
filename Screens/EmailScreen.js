@@ -1,11 +1,24 @@
 import { StyleSheet, Text, View,SafeAreaView,Image,TextInput,TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation } from '@react-navigation/native';
+import { SaveScreenProgress,GetScreenProgress } from '../Utils';
 
 const EmailScreen = () => {
   const [email,setEmail]=useState("");
   const navigation = useNavigation();
+
+  useEffect(()=>
+  {
+    GetScreenProgress('email').then((Data)=>{
+      if(Data)
+        {
+          setEmail(Data || '')
+        }
+      }
+    )
+    
+  },[])
   return (
     <SafeAreaView>
       <View style={{marginTop:100}}>
@@ -42,7 +55,14 @@ const EmailScreen = () => {
         </View>
       </View>
 
-      <TouchableOpacity onPress={()=>navigation.navigate('password')}>
+      <TouchableOpacity onPress={()=>{
+       
+        if(email.trim()!=='')
+          {
+            SaveScreenProgress('email',email)
+          }
+          navigation.navigate('password')
+        }}>
 
             <MaterialCommunityIcons 
 

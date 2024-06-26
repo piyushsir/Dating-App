@@ -1,11 +1,21 @@
-import { StyleSheet, Text, View ,SafeAreaView,Image,TouchableOpacity} from 'react-native'
+import { StyleSheet, Text, View ,SafeAreaView,Image,TouchableOpacity,ToastAndroid} from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
+import { GetScreenProgress, SaveScreenProgress } from '../Utils'
 
 const LookingFor = () => {
   const navigation=useNavigation();
   const [lookingfor,setLookingFor]=useState('');
+  useEffect(()=>{
+    GetScreenProgress('lookingfor').then((Data)=>{
+      if(Data)
+        {
+          setLookingFor(Data);
+          console.log(Data)
+        }
+    })
+  })
   return (
 <SafeAreaView>
     <View style={{flexDirection:'row',alignItems:'center',marginTop:70 , marginLeft:15}}>
@@ -54,7 +64,13 @@ const LookingFor = () => {
 
       
 
-      <TouchableOpacity onPress={()=>LookingFor===''?ToastAndroid.show('you must choose an option',ToastAndroid.SHORT):navigation.navigate('HomeTown')} style={{marginTop:20}}>
+      <TouchableOpacity onPress={()=>{
+        if(lookingfor!=='')
+          {
+            SaveScreenProgress('lookingfor',lookingfor);
+          }
+        lookingfor===''?ToastAndroid.show('you must choose an option',ToastAndroid.SHORT):navigation.navigate('HomeTown')}
+    } style={{marginTop:20}}>
       <MaterialCommunityIcons 
 
 style={{textAlign:'center',

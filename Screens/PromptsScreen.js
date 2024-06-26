@@ -1,15 +1,23 @@
 import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, Pressable } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { useRoute } from '@react-navigation/native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { GetScreenProgress, SaveScreenProgress } from '../Utils'
 
 const PromptsScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const [pr,setPr]=useState([]);
 
-  console.log(route?.params?.prompt[0]?.question + route?.params?.prompt[0]?.answer + 'hahhahahhahahhahhah');
+  
 
+  useEffect(()=>{
+    console.log(pr[0])
+    console.log(pr[1])
+    console.log(pr[2])
+
+  },[])
   return (
     <SafeAreaView>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 70, marginLeft: 15 }}>
@@ -140,7 +148,22 @@ const PromptsScreen = () => {
       </View>
 
 
-      <TouchableOpacity onPress={() => navigation.navigate('prefinal')} style={{ marginTop: 20 }}>
+      <TouchableOpacity onPress={() => {
+        if(route?.params?.prompt?.length!=0)
+          {
+            route?.params?.prompt?.map((val)=>{
+              
+             const newVal = `${val.question}+${val.answer}`
+             console.log(newVal)
+              setPr([...pr,newVal])
+             
+
+            })
+
+            
+            SaveScreenProgress('prompts',pr);
+          }
+        navigation.navigate('prefinal')}} style={{ marginTop: 20 }}>
         <MaterialCommunityIcons
 
           style={{

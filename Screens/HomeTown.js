@@ -1,14 +1,24 @@
 import { StyleSheet, Text, View,SafeAreaView,Image,TouchableOpacity, ScrollView,TextInput } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-
+import { GetScreenProgress,SaveScreenProgress } from '../Utils'
 const HomeTown = () => {
 
   const [home,setHome]=useState("")
   const navigation=useNavigation();
+
+  useEffect(()=>{
+    GetScreenProgress('HomeTown').then((Data)=>{
+      if(Data)
+        {
+          setHome(Data);
+          console.log(Data)
+        }
+    })
+  })
   return (
   
   
@@ -47,10 +57,15 @@ const HomeTown = () => {
     </View>
 
     <View>
-      <TextInput onChangeText={(e)=>setHome(e) } placeholder='Search' style={{borderRadius:8,borderWidth:2,marginLeft:15,marginRight:15}}/>
+      <TextInput value={home} onChangeText={(e)=>setHome(e) } placeholder='Search' style={{borderRadius:8,borderWidth:2,marginLeft:15,marginRight:15}}/>
     </View>
     
-    <TouchableOpacity onPress={()=>navigation.navigate('photos')} style={{marginTop:20}}>
+    <TouchableOpacity onPress={()=>{
+      if(home!=='')
+        {
+          SaveScreenProgress('HomeTown',home)
+        }
+      navigation.navigate('photos')}} style={{marginTop:20}}>
         <MaterialCommunityIcons 
 
 style={{textAlign:'center',

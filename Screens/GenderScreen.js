@@ -1,13 +1,22 @@
 import { StyleSheet, Text, View,SafeAreaView,TouchableOpacity,Image} from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useState } from 'react'
+import { GetScreenProgress, SaveScreenProgress } from '../Utils'
 
 const GenderScreen = () => {
 
   const navigation=useNavigation();
   const [gender,setGender] = useState('')
+  useEffect(()=>{
+    GetScreenProgress('gender').then((Data)=>{
+      if(Data)
+        {
+            setGender(Data);
+        }
+    })
+  },[])
   return (
     <SafeAreaView>
       <View style={{flexDirection:'row',alignItems:'center',marginTop:70 , marginLeft:15}}>
@@ -46,7 +55,12 @@ const GenderScreen = () => {
 
         
 
-        <TouchableOpacity onPress={()=>navigation.navigate('type')} style={{marginTop:20}}>
+        <TouchableOpacity onPress={()=>{
+          if(gender!=='')
+            {
+              SaveScreenProgress('gender',gender)
+            }
+          navigation.navigate('type')}} style={{marginTop:20}}>
         <MaterialCommunityIcons 
 
 style={{textAlign:'center',

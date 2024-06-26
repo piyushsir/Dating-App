@@ -1,12 +1,21 @@
 import { StyleSheet, Text, View,Image,TouchableOpacity,SafeAreaView } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useState,useEffect} from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-
+import { GetScreenProgress,SaveScreenProgress } from '../Utils';
 const TypeScreen = () => {
   const navigation=useNavigation();
   const [type,setType] = useState('')
+  useEffect(()=>{
+    GetScreenProgress('type').then((Data)=>{
+      if(Data)
+        {
+            setType(Data);
+            console.log(Data)
+        }
+    })
+  },[])
   return (
     <SafeAreaView>
       <View style={{flexDirection:'row',alignItems:'center',marginTop:70 , marginLeft:15}}>
@@ -48,7 +57,12 @@ const TypeScreen = () => {
 
        
 
-        <TouchableOpacity onPress={()=>navigation.navigate('dating')} style={{marginTop:20}}>
+        <TouchableOpacity onPress={()=>{
+          if(type!=='')
+            {
+              SaveScreenProgress('type',type)
+            }
+          navigation.navigate('dating')}} style={{marginTop:20}}>
         <MaterialCommunityIcons 
 
 style={{textAlign:'center',

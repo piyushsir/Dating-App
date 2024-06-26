@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View,SafeAreaView,Image,TouchableOpacity,TextInput} from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useState,useRef } from 'react'
 import { useNavigation } from '@react-navigation/native'
+import { GetScreenProgress, SaveScreenProgress } from '../Utils'
 
 const BirthScreen = () => {
   const [day,setDay]=useState('')
@@ -34,6 +35,20 @@ const BirthScreen = () => {
         {
           setYear(text);
         }
+
+        useEffect(()=>{
+          GetScreenProgress('birth').then((Data)=>{
+            if(Data){
+            const [d,m,y] = Data.split('/');
+            console.log(d+ m+ y)
+
+            setDay(d)
+            setMonth(m)
+            setYear(y)
+            }
+
+          })
+        },[])
   return (
     <SafeAreaView>
       <View style={{marginTop:100}}>
@@ -58,19 +73,19 @@ const BirthScreen = () => {
 
             <TextInput maxLength={2} 
              keyboardType='numeric'
-              placeholder='DD'
+              placeholder= {day===''?'DD':day}
               autoFocus={true}
               onChangeText={(e)=>handleDay(e)}
               style={{borderBottomColor:'black',borderBottomWidth:2,fontSize:22,marginRight:10}}></TextInput>
             <TextInput ref={monthinfo}
              maxLength={2}
-              placeholder='MM'
+              placeholder={month===''?'MM':month}
                keyboardType='numeric' 
                onChangeText={(e)=>handleMonth(e)} 
                style={{borderBottomColor:'black',borderBottomWidth:2,fontSize:22,marginRight:10}}></TextInput>
             <TextInput ref={yearinfo} 
             maxLength={4} 
-            placeholder='YYYY' 
+            placeholder={year===''?'YYYY':year}
             keyboardType='numeric'
             onChangeText={(e)=>handleYear(e)}
              style={{borderBottomColor:'black',borderBottomWidth:2,fontSize:22,marginRight:10}}></TextInput>
@@ -80,7 +95,14 @@ const BirthScreen = () => {
 
         </View>
 
-        <TouchableOpacity onPress={()=> navigation.navigate('Location')}>
+        <TouchableOpacity onPress={()=> {
+          if(day.trim()!=='' && month.trim()!=='' && year.trim()!=='')
+            {
+              const dob = `${day}/${month}/${year}`
+              SaveScreenProgress('birth',dob);
+              console.log(dob)
+            }
+          navigation.navigate('Location')}}>
 
 <MaterialCommunityIcons 
 
@@ -91,7 +113,7 @@ style={{textAlign:'center',
 color={'black'}/>
 </TouchableOpacity>
       </View>
-      <Text>{day} {month} {year}</Text>
+      
     </SafeAreaView>
   )
 }

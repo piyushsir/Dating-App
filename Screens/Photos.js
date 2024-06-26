@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, SafeAreaView, Pressable, Image, TouchableOpacity, Alert, ImageBackground } from 'react-native'
 import React from 'react'
-import { useState } from 'react'
+import { useState ,useEffect} from 'react'
 import { useNavigation } from '@react-navigation/native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import ImagePicker from 'react-native-image-crop-picker';
+import { SaveScreenProgress,GetScreenProgress } from '../Utils'
 
 const Photos = () => {
   const navigation = useNavigation();
@@ -59,6 +60,16 @@ const Photos = () => {
     )
   }
 
+
+  useEffect(()=>{
+    GetScreenProgress('photos').then((Data)=>{
+      if(Data)
+        {
+          setImgUrls(Data);
+          console.log(Data)
+        }
+    })
+  },[])
   return (
     <SafeAreaView>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 70, marginLeft: 15 }}>
@@ -139,7 +150,12 @@ const Photos = () => {
 
       <Text style={{ marginTop: 20, marginLeft: 17, color: 'grey', fontSize: 18 }}>Upload 4 Photos to get Started and rizz everyone</Text>
 
-      <TouchableOpacity onPress={() => navigation.navigate('prompts')} style={{ marginTop: 20 }}>
+      <TouchableOpacity onPress={() => {
+        if(imgUrls.length!=0)
+          {
+            SaveScreenProgress('photos',imgUrls);
+          }
+          navigation.navigate('prompts')}} style={{ marginTop: 20 }}>
         <MaterialCommunityIcons
 
           style={{

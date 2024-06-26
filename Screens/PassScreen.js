@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View,TouchableOpacity,TextInput,SafeAreaView,Image, ToastAndroid } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation } from '@react-navigation/native'
+import { GetScreenProgress, SaveScreenProgress } from '../Utils'
 const PassScreen = () => {
   const [password,setPassword]=useState("");
   const [confirmPassword,setConfirmPassword] = useState("")
@@ -18,6 +19,16 @@ const PassScreen = () => {
     setShowPassword2(!showPassword2);
   
 }
+
+useEffect(()=>{
+     GetScreenProgress('password').then((Data)=>{
+      if(Data){
+      setPassword(Data);
+      console.log(Data);
+      }
+
+     })
+},[])
   return (
     <SafeAreaView>
       <View style={{marginTop:100}}>
@@ -110,7 +121,13 @@ const PassScreen = () => {
         </View>
       </View>
 
-      <TouchableOpacity onPress={()=> (password===confirmPassword && password!==" ")?(navigation.navigate('birth')):(ToastAndroid.show('Password and Confirm Password does not match enter again',ToastAndroid.SHORT))}>
+      <TouchableOpacity onPress={()=> {
+
+        if(password.trim()!=='')
+          {
+            SaveScreenProgress('password',password)
+          }
+        (password===confirmPassword && password!==" ")?(navigation.navigate('birth')):(ToastAndroid.show('Password and Confirm Password does not match enter again',ToastAndroid.SHORT))}}>
 
             <MaterialCommunityIcons 
 

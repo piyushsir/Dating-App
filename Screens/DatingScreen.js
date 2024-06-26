@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View ,SafeAreaView,TouchableOpacity,Image, ToastAndroid} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import React from 'react'
+import { GetScreenProgress, SaveScreenProgress } from '../Utils'
 
 const DatingScreen = () => {
 
@@ -20,6 +21,15 @@ const DatingScreen = () => {
         }
 
   }
+
+  useEffect(()=>{
+    GetScreenProgress('dating').then((Data)=>{
+      if(Data)
+      {
+        setDatePrefer(Data);
+      }
+    })
+  },[])
   return (
     <SafeAreaView>
     <View style={{flexDirection:'row',alignItems:'center',marginTop:70 , marginLeft:15}}>
@@ -58,7 +68,14 @@ const DatingScreen = () => {
 
       
 
-      <TouchableOpacity onPress={()=>datePrefer.length===0?ToastAndroid.show('you must choose an option',ToastAndroid.SHORT):navigation.navigate('lookingfor')} style={{marginTop:20}}>
+      <TouchableOpacity onPress={()=>{
+        if(datePrefer.length!=0)
+          {
+            SaveScreenProgress('dating',datePrefer);
+          }
+        datePrefer.length===0?ToastAndroid.show('you must choose an option',ToastAndroid.SHORT):navigation.navigate('lookingfor')
+
+      }} style={{marginTop:20}}>
       <MaterialCommunityIcons 
 
 style={{textAlign:'center',
